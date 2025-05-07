@@ -6,12 +6,14 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  // IsUrl,
+  // IsUUID,
   Length,
 } from 'class-validator';
 
 export enum TaskTag {
   WORK = 'work',
-  STYDY = 'study',
+  STUDY = 'study',
   HOME = 'home',
 }
 
@@ -31,7 +33,14 @@ export class CreateTaskDto {
   priority: number;
 
   @IsArray({ message: 'теги должны быть массивом строк' })
-  @IsEnum(TaskTag, { each: true, message: 'таск может быть work, stydy, home' })
+  @IsEnum(TaskTag, { each: true, message: 'таск может быть work, study, home' })
   @IsOptional()
   tags: TaskTag[];
+
+  // @IsUrl({}, { message: 'не корректный формат url' })
+  // @IsOptional()
+  // websiteUrl: string;
+
+  // @IsUUID('4', { message: 'Не корректный формат UUID' })
+  // userId: string;
 }
