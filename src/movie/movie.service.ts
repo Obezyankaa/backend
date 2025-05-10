@@ -19,7 +19,7 @@ export class MovieService {
     });
   }
 
-  async findOneId(id: number): Promise<MovieEntity> {
+  async findOneId(id: string): Promise<MovieEntity> {
     const movie = await this.movieRepository.findOne({
       where: {
         id,
@@ -37,17 +37,22 @@ export class MovieService {
     return await this.movieRepository.save(movie);
   }
 
-  async update(id: number, dto: MovieDto): Promise<boolean> {
+  async update(id: string, dto: MovieDto): Promise<boolean> {
     const movie = await this.findOneId(id);
     Object.assign(movie, dto);
     await this.movieRepository.save(movie);
     return true;
   }
 
-  async updateIsPublic(id: number): Promise<boolean> {
+  async updateIsPublic(id: string): Promise<boolean> {
     const movie = await this.findOneId(id);
-    movie.isPublic = !movie.isPublic;
+    movie.isAvailable = !movie.isAvailable;
     await this.movieRepository.save(movie);
     return true;
+  }
+
+  async deleteMovie(id: string): Promise<void> {
+    const movie = await this.findOneId(id);
+    await this.movieRepository.delete(movie);
   }
 }

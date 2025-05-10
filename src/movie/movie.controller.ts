@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { MovieDto } from './dto/movie.dto';
 
@@ -12,7 +22,7 @@ export class MovieController {
 
   @Get(':id')
   async findById(@Param('id') id: string) {
-    return this.movieService.findOneId(+id);
+    return this.movieService.findOneId(id);
   }
 
   @Post()
@@ -22,11 +32,17 @@ export class MovieController {
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() dto: MovieDto) {
-    return this.movieService.update(+id, dto);
+    return this.movieService.update(id, dto);
   }
 
   @Patch(':id')
   async updateIsPublic(@Param('id') id: string) {
-    return this.movieService.updateIsPublic(+id);
+    return this.movieService.updateIsPublic(id);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async deleteMovie(@Param('id') id: string) {
+    return this.movieService.deleteMovie(id);
   }
 }
