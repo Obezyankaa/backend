@@ -1,64 +1,51 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TaskEntity } from './entities/task.entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TaskService {
-  private tasks = [
-    {
-      id: 1,
-      title: 'vlad',
-      isCompleted: false,
-    },
-    {
-      id: 2,
-      title: 'darya',
-      isCompleted: false,
-    },
-  ];
-  findAll() {
-    return this.tasks;
+  constructor(
+    @InjectRepository(TaskEntity)
+    private readonly taskRepository: Repository<TaskEntity>,
+  ) {}
+
+  async findAll(): Promise<TaskEntity[] | string> {
+    const tasks = await this.taskRepository.find({
+      order: { createdAt: 'desc' },
+    });
+    if (tasks.length === 0) {
+      return 'Задач пока нет';
+    }
+    return tasks;
   }
 
-  findById(id: number) {
-    const task = this.tasks.find((el) => el.id === id);
+  async findId(id: string): Promise<TaskEntity> {
+    const task = await this.taskRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
     if (!task) {
-      throw new NotFoundException('такого id нету');
+      throw new NotFoundException('Задача не найдена');
     }
     return task;
   }
 
-  create(dto: CreateTaskDto) {
-    const newTask = {
-      id: this.tasks.length + 1,
-      title: dto.title,
-      description: dto.description,
-      priority: dto.priority,
-      tags: dto.tags,
-      isCompleted: false,
-    };
-    this.tasks.push(newTask);
-    return this.tasks;
+  async create(dto: CreateTaskDto) {
+    const { title } = dto;
+    const task = this.taskRepository.create({
+      title,
+    });
+    return await this.taskRepository.save(task);
   }
 
-  update(id: number, dto: UpdateTaskDto) {
-    const { title, isCompleted } = dto;
-    const task = this.findById(id);
-    task.title = title;
-    task.isCompleted = isCompleted;
-
-    return task;
-  }
-
-  patchUpdate(id: number, dto: Partial<UpdateTaskDto>) {
-    const task = this.findById(id);
-    Object.assign(task, dto);
-    return task;
-  }
-
-  deleteTask(id: number) {
-    const task = this.findById(id);
-    this.tasks = this.tasks.filter((el) => el.id !== task.id);
-    return task;
+  async update(id: string): Promise<boolean> {
+    const task = await this.findId(id);
+    task.isCompleted = !task.isCompleted;
+    await this.taskRepository.save(task);
+    return true;
   }
 }

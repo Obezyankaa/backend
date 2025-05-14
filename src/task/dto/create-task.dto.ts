@@ -1,10 +1,7 @@
 import {
-  IsArray,
-  IsEnum,
-  IsInt,
+  IsBoolean,
   IsNotEmpty,
   IsOptional,
-  IsPositive,
   IsString,
   // IsUrl,
   // IsUUID,
@@ -20,27 +17,31 @@ export enum TaskTag {
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
-  @Length(2, 20)
+  @Length(1, 50)
   title: string;
 
-  @IsString({ message: 'описание должно быть строкой' })
   @IsOptional()
-  description: string;
+  @IsBoolean()
+  isCompleted?: boolean;
 
-  @IsInt({ message: 'приоритет должен быть целым числом' })
-  @IsPositive({ message: 'приоритет должен быть положительным числом' })
-  @IsOptional()
-  priority: number;
-
-  @IsArray({ message: 'теги должны быть массивом строк' })
-  @IsEnum(TaskTag, { each: true, message: 'таск может быть work, study, home' })
-  @IsOptional()
-  tags: TaskTag[];
-
-  // @IsUrl({}, { message: 'не корректный формат url' })
+  // @IsString({ message: 'описание должно быть строкой' })
   // @IsOptional()
-  // websiteUrl: string;
+  // description: string;
 
-  // @IsUUID('4', { message: 'Не корректный формат UUID' })
-  // userId: string;
+  // @IsInt({ message: 'приоритет должен быть целым числом' })
+  // @IsPositive({ message: 'приоритет должен быть положительным числом' })
+  // @IsOptional()
+  // priority: number;
+
+  // @IsArray({ message: 'теги должны быть массивом строк' })
+  // @IsEnum(TaskTag, { each: true, message: 'таск может быть work, study, home' })
+  // @IsOptional()
+  // tags: TaskTag[];
+
+  // // @IsUrl({}, { message: 'не корректный формат url' })
+  // // @IsOptional()
+  // // websiteUrl: string;
+
+  // // @IsUUID('4', { message: 'Не корректный формат UUID' })
+  // // userId: string;
 }

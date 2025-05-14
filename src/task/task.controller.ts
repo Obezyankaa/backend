@@ -1,29 +1,19 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get('all')
-  findAll() {
+  async findAll() {
     return this.taskService.findAll();
   }
 
-  @Get('by-id/:id')
+  @Get(':id')
   findById(@Param('id') id: string) {
-    return this.taskService.findById(Number(id));
+    return this.taskService.findId(id);
   }
 
   @Post('create')
@@ -31,18 +21,8 @@ export class TaskController {
     return this.taskService.create(dto);
   }
 
-  @Put('change/:id')
-  update(@Param('id') id: string, @Body() dto: UpdateTaskDto) {
-    return this.taskService.update(Number(id), dto);
-  }
-
-  @Patch('patch/:id')
-  patchUpdate(@Param('id') id: string, @Body() dto: Partial<UpdateTaskDto>) {
-    return this.taskService.patchUpdate(Number(id), dto);
-  }
-
-  @Delete('delete/:id')
-  deleteTask(@Param('id') id: string) {
-    return this.taskService.deleteTask(Number(id));
+  @Patch(':id')
+  upadte(@Param('id') id: string) {
+    return this.taskService.update(id);
   }
 }
