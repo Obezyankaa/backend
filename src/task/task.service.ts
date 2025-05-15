@@ -21,7 +21,7 @@ export class TaskService {
     return tasks;
   }
 
-  async findId(id: string): Promise<TaskEntity> {
+  async findOneId(id: string): Promise<TaskEntity> {
     const task = await this.taskRepository.findOne({
       where: {
         id,
@@ -35,17 +35,25 @@ export class TaskService {
   }
 
   async create(dto: CreateTaskDto) {
-    const { title } = dto;
+    const { title, tags } = dto;
     const task = this.taskRepository.create({
       title,
+      tags,
     });
     return await this.taskRepository.save(task);
   }
 
   async update(id: string): Promise<boolean> {
-    const task = await this.findId(id);
+    const task = await this.findOneId(id);
     task.isCompleted = !task.isCompleted;
     await this.taskRepository.save(task);
     return true;
+  }
+
+  async delete(id: string): Promise<void> {
+    const task = await this.findOneId(id);
+    if (task) {
+      await this.taskRepository.remove(task);
+    }
   }
 }

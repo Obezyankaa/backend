@@ -14,6 +14,9 @@ export class TaskEntity {
   @Column({ type: 'varchar', length: 50 })
   title: string;
 
+  @Column('text', { array: true, default: () => 'ARRAY[]::text[]' })
+  tags: string[];
+
   @Column({ type: 'boolean', name: 'is_completed', default: false })
   isCompleted: boolean;
 
