@@ -12,18 +12,44 @@ export class MovieService {
       orderBy: {
         createAt: 'desc',
       },
+      include: {
+        actors: true,
+        poster: {
+          select: {
+            id: true,
+            url: true,
+          },
+        },
+      },
     });
   }
 
   async create(dto: MovieDto): Promise<Movie> {
-    const { title, description } = dto;
-    const movie = this.prismaService.movie.create({
+    const { title, description, actorIds, imageUrl } = dto;
+
+    return await this.prismaService.movie.create({
       data: {
         title,
         description,
+        actors: {
+          connect: actorIds.map((id) => ({ id })), // 👈 связываем актёров по ID
+        },
+        poster: {
+          create: {
+            url: imageUrl,
+          },
+        },
+      },
+      include: {
+        actors: true, // если хочешь вернуть фильм сразу с актёрами
+        poster: {
+          select: {
+            id: true,
+            url: true,
+          },
+        },
       },
     });
-    return await movie;
   }
 
   async findOneId(id: string) {

@@ -12,12 +12,37 @@ model Movie {
   title String
   description String
   isAvailable Boolean @default(false) @map("is_available")
+  actors Actor[] @relation("movie_actors")
+  poster MoviePoster? @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  posterId String? @unique
 
-   createAt DateTime @default(now()) @map("create_at")
-   updatedAt DateTime @updatedAt @map("updated_at")
-   @@map("movies")
+  createAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("movies")
 }
 
+model Actor {
+  id String @id @default(uuid())
+  name String
+
+  movies Movie[] @relation("movie_actors")
+
+  createAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("actors")
+}
+
+model MoviePoster {
+  id String @id @default(uuid())
+  url String
+
+  movie Movie? @relation()
+
+  createAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("movie_posters")
+}
 
 // model Movie {
 //   id String @id @default(uuid())

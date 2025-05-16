@@ -1,4 +1,11 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class MovieDto {
   @IsNotEmpty()
@@ -13,6 +20,13 @@ export class MovieDto {
   @IsBoolean()
   isAvailable: boolean;
 
+  @IsArray()
+  @IsUUID('4', { each: true })
+  actorIds: string[];
+
+  @IsString()
+  imageUrl: string;
+
   // @IsNotEmpty()
   // @IsInt()
   // @Min(1888)
@@ -21,10 +35,6 @@ export class MovieDto {
 
   // @IsString()
   // imageUrl: string;
-
-  // @IsArray()
-  // @IsUUID('4', { each: true })
-  // actorIds: string[];
 
   // @IsNotEmpty()
   // @IsBoolean()
