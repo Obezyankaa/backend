@@ -8,6 +8,6 @@ export class ActorController {
 
   @Post()
   create(@Body() dto: CreateActorDto) {
-    return this.actorService.create(dto);
+    // return this.actorService.create(dto);
   }
 }

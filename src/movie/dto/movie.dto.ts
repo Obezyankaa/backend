@@ -1,14 +1,4 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-  Max,
-  Min,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class MovieDto {
   @IsNotEmpty()
@@ -16,20 +6,28 @@ export class MovieDto {
   title: string;
 
   @IsNotEmpty()
-  @IsInt()
-  @Min(1888)
-  @Max(new Date().getFullYear())
-  releaseYear: number;
-
   @IsString()
-  imageUrl: string;
+  description: string;
 
-  @IsArray()
-  @IsUUID('4', { each: true })
-  actorIds: string[];
-
-  @IsNotEmpty()
-  @IsBoolean()
   @IsOptional()
-  isPublic: boolean;
+  @IsBoolean()
+  isAvailable: boolean;
+
+  // @IsNotEmpty()
+  // @IsInt()
+  // @Min(1888)
+  // @Max(new Date().getFullYear())
+  // releaseYear: number;
+
+  // @IsString()
+  // imageUrl: string;
+
+  // @IsArray()
+  // @IsUUID('4', { each: true })
+  // actorIds: string[];
+
+  // @IsNotEmpty()
+  // @IsBoolean()
+  // @IsOptional()
+  // isPublic: boolean;
 }

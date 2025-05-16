@@ -7,7 +7,6 @@ import {
   Param,
   Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { MovieDto } from './dto/movie.dto';
@@ -20,24 +19,19 @@ export class MovieController {
     return this.movieService.findAll();
   }
 
-  @Get(':id')
-  async findById(@Param('id') id: string) {
-    return this.movieService.findOneId(id);
-  }
-
   @Post()
   async create(@Body() dto: MovieDto) {
     return this.movieService.create(dto);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() dto: MovieDto) {
-    return this.movieService.update(id, dto);
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return this.movieService.findOneId(id);
   }
 
-  @Patch(':id')
-  async updateIsPublic(@Param('id') id: string) {
-    return this.movieService.updateIsPublic(id);
+  @Patch('/availability/:id')
+  async updateAvailability(@Param('id') id: string) {
+    return this.movieService.updateAvailability(id);
   }
 
   @Delete(':id')
