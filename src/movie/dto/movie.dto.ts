@@ -26,18 +26,4 @@ export class MovieDto {
 
   @IsString()
   imageUrl: string;
-
-  // @IsNotEmpty()
-  // @IsInt()
-  // @Min(1888)
-  // @Max(new Date().getFullYear())
-  // releaseYear: number;
-
-  // @IsString()
-  // imageUrl: string;
-
-  // @IsNotEmpty()
-  // @IsBoolean()
-  // @IsOptional()
-  // isPublic: boolean;
 }

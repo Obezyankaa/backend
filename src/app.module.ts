@@ -8,6 +8,9 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoggingMiddleware } from './common/middlewares/logget.middleware';
+import { MovieModule } from './movie/movie.module';
+import { ReviewModule } from './review/review.module';
+import { ActorModule } from './actor/actor.module';
 
 @Module({
   imports: [
@@ -15,6 +18,9 @@ import { LoggingMiddleware } from './common/middlewares/logget.middleware';
       isGlobal: true,
     }),
     PrismaModule,
+    MovieModule,
+    ReviewModule,
+    ActorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
