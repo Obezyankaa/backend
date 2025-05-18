@@ -7,10 +7,4 @@ export class ReviewService {
   //   private readonly reviewRepository: Repository<ReviewEntity>,
   //   private readonly movieService: MovieService,
   // ) {}
-  // async create(dto: CreateReviewDto): Promise<ReviewEntity> {
-  //   const { text, rating, movieId } = dto;
-  //   const movie = await this.movieService.findOneId(movieId);
-  //   const review = this.reviewRepository.create({ text, rating, movie });
-  //   return await this.reviewRepository.save(review);
-  // }
 }
